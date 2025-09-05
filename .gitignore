@@ -1,16 +1,31 @@
-# Секреты
+# Секретные файлы
 .env
-config.json
+.env.local
+.env.production
 
 # База данных
 *.db
+*.sqlite
+*.sqlite3
 bot_data.db
 
 # Временные файлы
+*.log
+*.tmp
 temp_*.xlsx
+
+# Python кэш
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Файлы системы
+# IDE файлы
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Системные файлы
 .DS_Store
 Thumbs.db
