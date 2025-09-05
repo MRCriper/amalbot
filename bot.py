@@ -11,15 +11,38 @@ from aiogram.filters import Command
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.context import FSMContext
 from aiogram.fsm.state import State, StatesGroup
+from aiogram.fsm.storage.memory import MemoryStorage
 
-TOKEN = "7659805201:AAG0gtQM3P9U7aJH1BGkBm-Sdzm2H--zwY4"
-ADMIN_ID = 1312455951
+# Безопасная загрузка переменных окружения
+def load_env_vars():
+    """Загружает переменные из .env файла или окружения"""
+    try:
+        from dotenv import load_dotenv
+        load_dotenv()
+    except ImportError:
+        print("python-dotenv не установлен, используем системные переменные")
+    
+    token = os.getenv('BOT_TOKEN')
+    admin_id = os.getenv('ADMIN_ID')
+    
+    if not token:
+        raise ValueError("BOT_TOKEN не найден в переменных окружения!")
+    
+    if not admin_id:
+        raise ValueError("ADMIN_ID не найден в переменных окружения!")
+    
+    return token, int(admin_id)
 
+# Загружаем конфигурацию
+TOKEN, ADMIN_ID = load_env_vars()
+
+# Создаем бота с безопасным токеном
 bot = Bot(
     token=TOKEN,
     default=DefaultBotProperties(parse_mode=ParseMode.HTML)
 )
-dp = Dispatcher()
+storage = MemoryStorage()
+dp = Dispatcher(storage=storage)
 
 # Состояния для FSM
 class AuthStates(StatesGroup):
@@ -503,3 +526,4 @@ async def handle_unauthorized(message: types.Message):
 if __name__ == "__main__":
     init_db()
     asyncio.run(dp.start_polling(bot))
+
