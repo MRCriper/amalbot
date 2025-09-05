@@ -1,0 +1,16 @@
+# Секреты
+.env
+config.json
+
+# База данных
+*.db
+bot_data.db
+
+# Временные файлы
+temp_*.xlsx
+__pycache__/
+*.pyc
+
+# Файлы системы
+.DS_Store
+Thumbs.db
